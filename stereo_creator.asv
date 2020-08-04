@@ -1,6 +1,6 @@
 function stereo_creator()
 
-    im = rgb2gray(imread('teapot.jpg'));
+    im = rgb2gray(imread('tiger.jpg'));
     
     factor = 5; % number of sections to split image into
     rds = generate_random_dot_stereogram(im, factor);
@@ -45,13 +45,12 @@ function shifted = shift_section(rds, map_section, map, seg_start,seg_end)
     % compensate for the shift by wrapping around pattern
     if seg_end+shift > size(map,2)
         leftover = map(:, seg_start+shift: size(map,2));
-        size_left = seg_end+shift - size(map,2);
+        size_left = seg_end+shift - size(map,2) - 1;
         filler = zeros(size(map,1), size_left);
 
-        shift_map = cat(2, leftover, filler); 
-    else
-        shift_map = map(:, seg_start+shift:seg_end+shift);
+        shift_map = 
     end
+    shift_map = map(:, seg_start+shift:seg_end+shift);
     shift_rds = imtranslate(rds, [size(rds,2)-shift, 0]);
     com = (shift_rds & shift_map) + (moved_rds & shift_map);
     
